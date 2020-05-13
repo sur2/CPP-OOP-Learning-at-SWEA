@@ -193,9 +193,169 @@ SW Expert Academy에서 C++ Object Oriented Programming 학습
 
 ### 2. 생성자와 소멸자
 
+#### 1) 생성자 함수
+
+- 디폴트 생성자
+- 인자 있는 생성자
+- 복사 생성자
+
+#### 2) 소멸자 함수
+
+- 예시 코드
+
+  ```
+  Point.h
+  
+  #ifndef POINT_H
+  #define POINT_H
+  
+  class Point {
+  // private
+  public:
+  	int x;
+  	int y;
+  public:
+  	// 디폴트 생성자
+  	Point();
+  	// 인자가 있는 생성자
+  	Point(int xpos, int ypos);
+  	// Point(int xpos = 0, int ypos = 0);
+  	// 소멸자
+  	~Point();
+  	void Print();
+  	int GetX();
+  	int GetY();
+  	void SetX(int);
+  	void SetY(int);
+  };
+  #endif
+  ```
+
+  ```
+  Point.cpp
+  
+  #include "point.h"
+  #include <iostream>
+  using namespace std;
+  
+  Point::Point()
+  {
+  	x = 0;
+  	y = 0;
+  	cout << "디폴트 생성자" << endl;
+  }
+  
+  Point::Point(int xpos, int ypos)
+  {
+  	x = xpos;
+  	y = ypos;
+  	cout << "인자 있는 생성자" << endl;
+  }
+  
+  void Point::Print()
+  {
+  	cout << "x = " << x << ", y = " << y << endl;
+  }
+  /*
+  Point::Point(int xpos, int ypos)
+  	: x(xpos), y(ypos)
+  {
+  	cout << "초기화 리스트 생성자" << endl;
+  }
+  */
+  
+  Point::~Point()
+  {
+  	cout << "소멸자" << endl;
+  }
+  
+  int Point::GetX()
+  {
+  	return x;
+  }
+  
+  int Point::GetY()
+  {
+  	return y;
+  }
+  
+  void Point::SetX(int xpos)
+  {
+  	x = xpos;
+  }
+  
+  void Point::SetY(int ypos)
+  {
+  	y = ypos;
+  }
+  ```
+  
+  ```
+  main.cpp
+  
+  #include "Point.h"
+  #include <iostream>
+  using namespace std;
+  
+  int main(void)
+  {
+  	// 디폴트 생성자 호출
+  	Point obj1;
+  	cout << "obj1:";
+  	obj1.Print();
+  	
+  	// 인자 있는 생성자 호출
+  	Point obj2(5, 10);
+  	cout << "obj2";
+  	obj2.Print();
+  
+  	obj1 = obj2;
+  	cout << "obj1 = obj2 이후, obj1 : ";
+  	obj1.Print();
+  
+  	cout << "종료" << endl;
+  
+  	return 0;
+  }
+  ```
+
 ### 3. 멤버와 클래스의 활용
 
-#### 4. this 포인터 변수와 복사 생성자
+#### 1) 정적멤버
+
+- 정적멤버 변수의 선언 및 정의 
+  - 클래스 내 오직 하나만 존재하기 때문에 모든 객체가 공동으로 사용
+  - 선언 : ``static 자료형 멤버변수명;``
+  - 정의 : ``자료형 클래스명::멤버변수명[=초기값];``
+- 정적멤버 함수
+  - 선언 : ``static 리턴자료형 함수명(매개변수목록, ... );``
+
+#### 2) const 객체와 const 함수
+
+- const 객체
+  - 선언 : ``const 클래스명 객체명;``
+  - 객체의 값은 변경할 수 없으며, 객체의 멤버함수도 호출할 수 없다. (단, const 함수는 가능)
+- const 함수
+  - 멤버변수의 값을 변경하지 않는 함수로 const를 붙여줌으로써 멤버 함수의 잘못된 접근이 일어나지 않도록 해줌
+  - 선언 : ``리턴형 함수명(매개변수 목록) const;``
+  - 정의 : ``리턴형 함수명(매개변수 목록) const {...}``
+
+#### 3) 객체 배열과 동적 객체
+
+- 객체 배열
+- 동적 객체
+  - 포인터 변수로 선언하여 **new 연산자**를 통해 할당함
+  - 객체포인터를 통해 멤버에 접근 할 때는 **-> 연산자** 이용
+  - **delete 연산자**로 반드시 해제해야 함
+- 동적 객체 배열
+  - **new 연산자**를 이용하여 동적 객체 배열 생성
+  - **[]** 이용하여 접근
+  - **delete[]** 연산자로 해제
+  - **동적 객체 배열은 항상 디폴트 생성자로 초기화**(디폴트 생성자를 제공하지 않으면 생성할 수 없음)
+
+
+
+### 4. this 포인터 변수와 복사 생성자
 
 ### 5. string 클래스
 
