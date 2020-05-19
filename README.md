@@ -357,6 +357,108 @@ SW Expert Academy에서 C++ Object Oriented Programming 학습
 
 ### 4. this 포인터 변수와 복사 생성자
 
+#### 1) this 포인터 변수
+
+- 모든 멤버함수에서 이용 가능(단, 정적멤버 함수에서는 사용 불가능)
+
+#### 2) 복사 생성자 (const ClassName& name)
+
+- 클래스 내 포인터 멤버변수가 동적 메모리를 가리킬 때는 개발자가 복사 생성자를 정의 (같은 클래스로 만든 서로 다른 객체가 같은 메모리를 점유할 수 있기 때문)
+
+- 대입연산자, 소멸자 등도 직접 정의
+
+- 예시 코드
+
+  ```
+  #ifndef PERSON_H
+  #define	PERSON_H
+  
+  class Person
+  {
+  private:
+  	char* name;
+  	int age;
+  
+  public:
+  	Person();
+  	Person(const char* name, int age);
+  	Person(const Person& arg);
+  	~Person();
+  	void Show() const;
+  	
+  };
+  #endif
+  ```
+
+  ```
+  #define _CRT_SECURE_NO_WARNINGS
+  
+  #include "Person.h"
+  #include <iostream>
+  #include <cstring>
+  
+  using namespace std;
+  
+  Person::Person()
+  {
+  	name = new char[20];
+  	strcpy(name, "");
+  	age = 0;
+  	cout << "디폴트 생성자" << endl;
+  }
+  
+  Person::Person(const char* name, int age)
+  {
+  	this->name = new char[20];
+  	strcpy(this->name, name);
+  	this->age = age;
+  	cout << "인자 있는 생성자" << endl;
+  }
+  
+  Person::Person(const Person& arg)
+  {
+  	name = new char[20];
+  	strcpy(name, arg.name);
+  	age = arg.age;
+  	cout << "복사 생성자" << endl;
+  }
+  
+  Person::~Person()
+  {
+  	delete[] name;
+  	cout << "소멸자" << endl;
+  }
+  
+  void Person::Show() const
+  {
+  	cout << "name : " << name << ", age : " << age << endl;
+  }
+  ```
+
+  ```
+  #include <iostream>
+  #include "Person.h"
+  using namespace std;
+  
+  int main()
+  {
+  	Person p1("홍길동", 24);
+  	Person p2(p1);
+  	p2.Show();
+  	
+  	Person* ptr1 = new Person("허균", 59);
+  	Person* ptr2 = new Person(*ptr1);
+  	ptr2->Show();
+  
+  	delete ptr2;
+  	delete ptr1;
+  
+  	return 0;
+  }
+  ```
+
+  
+
 ### 5. string 클래스
 
 
